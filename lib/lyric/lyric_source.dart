@@ -54,17 +54,20 @@ Map<String, LyricSource> LYRIC_SOURCES = {};
 
 Future<void> readLyricSources() async {
   try {
-    LYRIC_SOURCES.clear();
     final supportPath = (await getAppDataDir()).path;
     final lyricSourcePath = "$supportPath\\lyric_source.json";
 
     final lyricSourceStr = File(lyricSourcePath).readAsStringSync();
     final Map lyricSourceJson = json.decode(lyricSourceStr);
 
+    final newLyricSources = <String, LyricSource>{};
     for (final item in lyricSourceJson.entries) {
       if (File(item.key).existsSync() == false) continue;
-      LYRIC_SOURCES[item.key] = LyricSource.fromMap(item.value);
+      newLyricSources[item.key] = LyricSource.fromMap(item.value);
     }
+
+    LYRIC_SOURCES.clear();
+    LYRIC_SOURCES.addAll(newLyricSources);
   } catch (err, trace) {
     LOGGER.e(err, stackTrace: trace);
   }

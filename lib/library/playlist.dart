@@ -11,16 +11,19 @@ List<Playlist> PLAYLISTS = [];
 
 Future<void> readPlaylists() async {
   try {
-    PLAYLISTS.clear();
     final supportPath = (await getAppDataDir()).path;
     final playlistsPath = "$supportPath\\playlists.json";
 
     final playlistsStr = File(playlistsPath).readAsStringSync();
     final List playlistsJson = json.decode(playlistsStr);
 
+    final newPlaylists = <Playlist>[];
     for (Map item in playlistsJson) {
-      PLAYLISTS.add(Playlist.fromMap(item));
+      newPlaylists.add(Playlist.fromMap(item));
     }
+
+    PLAYLISTS.clear();
+    PLAYLISTS.addAll(newPlaylists);
   } catch (err, trace) {
     LOGGER.e(err, stackTrace: trace);
   }
