@@ -11,6 +11,7 @@ List<Playlist> PLAYLISTS = [];
 
 Future<void> readPlaylists() async {
   try {
+    PLAYLISTS.clear();
     final supportPath = (await getAppDataDir()).path;
     final playlistsPath = "$supportPath\\playlists.json";
 

@@ -54,6 +54,7 @@ Map<String, LyricSource> LYRIC_SOURCES = {};
 
 Future<void> readLyricSources() async {
   try {
+    LYRIC_SOURCES.clear();
     final supportPath = (await getAppDataDir()).path;
     final lyricSourcePath = "$supportPath\\lyric_source.json";
 
